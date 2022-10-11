@@ -1,8 +1,6 @@
 /**
  * Imported from lecture 3
  */
-
-
 grammar impl;
 start : CONST EOF;
 

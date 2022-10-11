@@ -2,16 +2,18 @@
  * Imported from lecture 3
  */
 
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.util.Scanner;
 
 public class main {
     public static void main(String[] args) throws IOException{
-
         // we expect exactly one argument: the name of the input file
         if (args.length!=1) {
             System.err.println("\n");
@@ -19,9 +21,20 @@ public class main {
             System.err.println("=================\n\n");
             System.err.println("Please give as input argument a filename\n");
             System.exit(-1);
+
         }
         String filename=args[0];
-
+        boolean correctFileName = false;
+        while(!correctFileName) {
+            try {
+                CharStream input = CharStreams.fromFileName(filename);
+                correctFileName = true;
+            } catch (NoSuchFileException e) {
+                System.out.println("File not found. Please enter filename: ");
+                Scanner in = new Scanner(System.in);
+                filename = in.nextLine();
+            }
+        }
         // open the input file
         CharStream input = CharStreams.fromFileName(filename);
         //new ANTLRFileStream (filename); // depricated
